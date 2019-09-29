@@ -1,0 +1,142 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 HelveticaNeue-Bold;\f2\fswiss\fcharset0 Helvetica-Oblique;
+\f3\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red76\green76\blue76;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c37036\c37036\c37036;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11905\paperh16837\margl1133\margr1133\margb1133\margt1133
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs22 \cf2 \expnd0\expndtw0\kerning0
+\up0 \nosupersub \ulnone \
+\
+\pard\pardeftab720\qc\partightenfactor0
+
+\f1\b\fs26 \cf2 Remplacement des ex\'e9cutables avr-gcc pour Arduino IDE\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b0\fs22 \cf2 \
+\pard\pardeftab720\partightenfactor0
+
+\f1\b\fs32 \cf2 Pr\'e9ambule\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b0\fs22 \cf2 \
+Notez bien que cette manipulation est temporaire : la compilation avec ces options enl\'e8ve l'optimisation, rendant vos projets plus volumineux et moins rapides ! Il faudra donc ensuite revenir \'e0 la version d'origine.\
+Pour Windows, je vous conseille de t\'e9l\'e9charger la version portable d'ArduinoIDE sur le site {\field{\*\fldinst{HYPERLINK "http://www.arduino.cc"}}{\fldrslt \cf2 \ul \ulc2 www.arduino.cc}} (= version zipp\'e9e).\
+Pour Mac, vous pouvez t\'e9l\'e9charger l'application et la renommer (Arduino2, Arduino3, etc\'85) avant de la copier dans votre dossier Applications. Dans le pire des cas vous pouvez, pour revenir \'e0 l'ancienne version, mettre l'application dans la corbeille, la t\'e9l\'e9charger et l'ajouter \'e0 nouveau.\
+\
+\pard\tx20\tx480\pardeftab720\li480\fi-480\partightenfactor0
+\ls1\ilvl0
+\f1\b\fs32 \cf2 \kerning1\expnd0\expndtw0 \up0 \nosupersub \ulnone {\listtext	1.	}\cf2 \expnd0\expndtw0\kerning0
+\up0 \nosupersub \ulnone Modification du fichier Platform.txt\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b0\fs22 \cf2 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \ul \ulc2 Pour Windows:\
+\pard\pardeftab720\partightenfactor0
+\cf2 \ulnone Allez dans le dossier hardware/arduino/avr et ouvrez le fichier platform.txt avec Notepad++ (\'e0 t\'e9l\'e9charger si vous ne l'avez pas).\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \ul \ulc2 Pour MacOs:\
+\pard\pardeftab720\partightenfactor0
+\cf2 \ulnone \
+Faites un clic droit sur ArduinoIDE dans le dossier Applications et choisissez "Afficher le contenu du paquet". Allez dans le dossier Contents/java/hardware/arduino/avr et \'e9ditez le fichier platform.txt (avec TextEdit ou autre)\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \ul \ulc2 Modification du fichier\cf2 \ulnone :\
+\
+Une fois le fichier ouvert sur votre machine, rep\'e9rez les lignes qui commencent par les \'e9l\'e9ments suivants : \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f2\i\fs24 \cf3 compiler.c.flags=\
+compiler.S.flags=\
+compiler.cpp.flags=\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f3\i0 \cf2 \
+Mettez un di\'e8se (#) devant ces lignes pour les commenter. En dessous de chaque ligne, copiez la nouvelle ligne correspondante:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f2\i \cf3 compiler.c.flags=-c  -w \{compiler.warning_flags\} -std=gnu11 -ffunction-sections -fdata-sections -MMD -fno-lto -fno-fat-lto-objects -fno-inline -g -Og \
+\
+compiler.S.flags=-c  -x assembler-with-cpp -fno-lto -MMD -g -Og -fno-inline \
+\
+compiler.cpp.flags=-c \{compiler.warning_flags\} -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -fno-lto -fno-inline -g -Og \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f3\i0 \cf2 \
+Puis enregistrez le fichier et fermez-le.\
+\
+Ces options permettent:\
+\pard\tx20\tx261\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\li261\fi-262\partightenfactor0
+\ls2\ilvl0
+\fs28\fsmilli14400 \cf2 \kerning1\expnd0\expndtw0 \up0 \nosupersub \ulnone {\listtext	-	}
+\fs24 \cf2 \expnd0\expndtw0\kerning0
+\up0 \nosupersub \ulnone fno-lto : = "no link time optimization". Pas d'optimisation au moment du cha\'eenage.\
+\ls2\ilvl0
+\fs28\fsmilli14400 \cf2 \kerning1\expnd0\expndtw0 \up0 \nosupersub \ulnone {\listtext	-	}
+\fs24 \cf2 \expnd0\expndtw0\kerning0
+\up0 \nosupersub \ulnone fno-inline : pas de fonctions inline.\
+\ls2\ilvl0
+\fs28\fsmilli14400 \cf2 \kerning1\expnd0\expndtw0 \up0 \nosupersub \ulnone {\listtext	-	}
+\fs24 \cf2 \expnd0\expndtw0\kerning0
+\up0 \nosupersub \ulnone g : g\'e9n\'e9rer les informations de debug.\
+\ls2\ilvl0
+\fs28\fsmilli14400 \cf2 \kerning1\expnd0\expndtw0 \up0 \nosupersub \ulnone {\listtext	-	}
+\fs24 \cf2 \expnd0\expndtw0\kerning0
+\up0 \nosupersub \ulnone Og : niveau d'optimisation = debug (il y a quand m\'eame une optimisation, mais elle est tr\'e8s permissive).\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+\cf2 \
+A noter qu'on ne peut pas compiler un programme Arduino sans optimisation (l'instruction delay() n\'e9cessite obligatoirement les optimisations d'activ\'e9es). C'est pourquoi on met le niveau d'optimisation le plus bas possible.\
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\b\fs32 \cf2 2. Remplacement des ex\'e9cutables avr-gcc\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b0\fs22 \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f3\fs24 \cf2 Attention, les options de compilation plus haut ne sont jamais prises en compte avec les executables fournis par d\'e9faut Arduino IDE (j'imagine qu'ils ont probablement \'e9t\'e9 eux-m\'eame compil\'e9s avec une option sp\'e9ciale). Il faut donc modifier les ex\'e9cutables par ceux officiels fournis par avr-gcc ! Voici la proc\'e9dure.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+\cf2 \ul \ulc2 Pour Windows\cf2 \ulnone  :\
+\
+Il existe une version pr\'e9-construite \'e0 l'adresse : {\field{\*\fldinst{HYPERLINK "https://blog.zakkemble.net/avr-gcc-builds/"}}{\fldrslt \cf2 \ul \ulc2 https://blog.zakkemble.net/avr-gcc-builds/}}. T\'e9l\'e9chargez le package correspondant \'e0 votre machine (x86-mingw ou x64-mingw). Puis suivez les instructions plus bas dans la page web (d\'e9placer le dossier hardware/tools/Avr sur votre bureau, puis cr\'e9er un dossier avr dans hardware/tools, copier le contenu de l'archive dans ce dossier et enfin reprendre le fichier 
+\f2\i \cf2 builtin_tools_versions.txt
+\f3\i0 \cf2  et le dossier 
+\f2\i \cf2 etc
+\f3\i0 \cf2  de votre ancien dossier sur le bureau).\
+\
+\cf2 \ul \ulc2 Pour macOs\cf2 \ulnone :\
+\
+On utilise le gestionnaire de paquets "homebrew". Allez \'e0 l'adresse {\field{\*\fldinst{HYPERLINK "https://brew.sh/index_fr"}}{\fldrslt \cf2 \ul \ulc2 https://brew.sh/index_fr}} s'il n'est pas d\'e9j\'e0 install\'e9 sur votre machine.\
+Ouvrez un nouveau Terminal et tapez :\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f2\i \cf3 brew install avr-gcc\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f3\i0 \cf2 \
+puis:\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f2\i \cf3 brew update avr-gcc\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab20\partightenfactor0
+
+\f3\i0 \cf2 \
+L'utilitaire doit r\'e9cup\'e9rer et installer tout seul la derni\'e8re version d'avr-gcc.\
+Une fois termin\'e9, dans le finder, allez dans le menu "Aller / Aller au dossier\'85" puis rentrez dans la zone de texte: "/usr/local/Cellar/avr-gcc" (sans les guillemets et attention aux majuscules). Une fen\'eatre s'ouvre avec un dossier ayant un num\'e9ro de version : ouvrez-le, copiez tous les \'e9l\'e9ments \'e0 l'int\'e9rieur (CMD+C) et collez-les dans le dossier Contents/java/hardware/tools/avr/ du paquet d'Arduino IDE (souvenez-vous, on l'ouvre en faisant un clic droit sur l'application et "Afficher le contenu du paquet").\
+\
+Au message vous disant que des \'e9l\'e9ments du m\'eame nom existent d\'e9j\'e0, choisissez "Fusionner".\
+Voil\'e0 c'est tout !}
